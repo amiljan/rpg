@@ -1,8 +1,12 @@
 from fileinput import close
 import random
-
 from cv2 import sort
 from numpy import ndarray
+
+def main():
+    for i in range(10):
+        tournament(15)
+
 
 
 class human:
@@ -16,8 +20,9 @@ class human:
     CHA = 0
     move = 1
     mana = 0
-    xp = 500
+    xp = 1000
     lv = 1
+    test_num = 0
 
 
 
@@ -28,6 +33,7 @@ def d(number):
 
 def status_screen(character):
     status_screen = f'''
+    Name: {character.test_num}
     HP: {character.HP}
     AC: {character.AC}
     STR: {character.STR}
@@ -59,8 +65,8 @@ def level_up(combatant):
         random_stat = random.choice(stats)
         stat_value = getattr(combatant,random_stat)
         setattr(combatant,random_stat,stat_value + 1)
-        combatant.HP = (combatant.lv * 10) + combatant.CON
-        combatant.AC = 10 + round((combatant.DEX + combatant.WIS)/2,0)
+        combatant.HP = (combatant.lv * 10) + combatant.CON * 10
+        combatant.AC = 10 + combatant.DEX + combatant.WIS
 
 def initiative(combatant1, combatant2):
     roll1 = combatant1.move + d(20)
@@ -75,7 +81,7 @@ def initiative(combatant1, combatant2):
 
 def melee_attack(attacker,defender):
     to_hit = attacker.DEX + d(20)
-    damage = defender.STR + d(4)
+    damage = attacker.STR + d(4)
     AC = defender.AC
     if to_hit >= AC:
         defender.HP -= damage
@@ -90,69 +96,54 @@ def fight(combatant1,combatant2):
         else:
             melee_attack(combatant2,combatant1)
         if combatant1.HP <= 0:
-            combatant2.xp += combatant1.xp/2
+            combatant2.xp += combatant1.xp
             level_up(combatant2)
             return combatant2
         if combatant2.HP <= 0:
-            combatant1.xp += combatant2.xp/2
+            combatant1.xp += combatant2.xp
             level_up(combatant1)
             return combatant1
-    
-
-
 
 def tournament(rounds):
     number_of_contestants = 2**rounds
     contestants = []
-    winners = []
-    for number in range(number_of_contestants):
-        contestants.append(human())
     
+    for number in range(number_of_contestants):
+        contestant = human()
+        contestant.test_num = number
+        contestants.append(contestant)
+    
+    champion = combat_round(number_of_contestants,contestants,rounds)
+    print(status_screen(champion))
 
+
+
+    
+def combat_round(number_of_contestants,contestants,rounds):
+    winners = []
+    final_tally = []
     for num in range(int(number_of_contestants/2)):
         number = num*2
         winner = fight(contestants[number],contestants[number+1])
-        print(winner)
-
-    
-
-#tournament(int(input("Number of rounds: ")))
-
-def dmg_tester(diff):
-
-
-    dmg = 0
-    admg = 0
-    ddmg = 0
-
-
-    for i in range(1000):
-        normal_hit = d(20)
-        hit1 = d(20)
-        hit2 = d(20)
-        hits = [hit1,hit2]
-        advantage = sorted(hits)[1]
-        disadvantage = sorted(hits)[0]
-
-
-        damage = d(8) + 4
+        winners.append(winner)
+    for person in winners:
+        final_tally.append(person)
+    if rounds != 1:
+        rounds -= 1
+        return combat_round(number_of_contestants=len(final_tally),contestants=final_tally,rounds=rounds)
+    else:
+        return winner
+            
 
         
-        if normal_hit >= diff:
-            dmg += 1
-        if advantage >= diff:
-            admg += 1
-        if disadvantage >= diff:
-            ddmg += 1
 
-    print(admg)
-    print(dmg)
-    print(ddmg)
-    print(f"Difference {(admg - ddmg)/10}")
-    print("")
+        
+
+        
 
 
-for i in range(21):
-    print(i)
-    print("+++++")
-    dmg_tester(i)
+
+
+
+if __name__ == "__main__":
+    main()
