@@ -1,14 +1,12 @@
 from character import d
 
-def dmg_tester(diff):
+def dmg_tester(number):
 
+    normal_roll = 0
+    advantage_roll = 0
+    disadvantage_roll = 0
 
-    dmg = 0
-    admg = 0
-    ddmg = 0
-
-
-    for i in range(1000):
+    for i in range(number):
         normal_hit = d(20)
         hit1 = d(20)
         hit2 = d(20)
@@ -16,25 +14,22 @@ def dmg_tester(diff):
         advantage = sorted(hits)[1]
         disadvantage = sorted(hits)[0]
 
+        normal_roll += normal_hit
+        advantage_roll += advantage
+        disadvantage_roll += disadvantage
+    
+    print(normal_roll/number)
+    print(advantage_roll/number)
+    print(disadvantage_roll/number)
 
-        damage = d(8) + 4
 
-        
-        if normal_hit >= diff:
-            dmg += 1
-        if advantage >= diff:
-            admg += 1
-        if disadvantage >= diff:
-            ddmg += 1
 
-    print(admg)
-    print(dmg)
-    print(ddmg)
-    print(f"Difference {(admg - ddmg)/10}")
+for i in range(50):
+    dmg_tester(100000)
     print("")
+        
 
 
-for i in range(21):
-    print(i)
-    print("+++++")
-    dmg_tester(i)
+
+
+
