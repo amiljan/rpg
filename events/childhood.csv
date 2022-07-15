@@ -1,0 +1,12 @@
+1;Died in war -- One of your parents died in a war. They were a soldier, a reporter doing their job, an aid worker, or someone who just happened to be in the wrong place at the wrong time.;wealth;-15
+2;Murdered -- Your parents were murdered in cold blood.;wealth;-50
+3;Abused you -- Your sibling did things you'd rather forget about.;CON;-1
+4;Suicide -- Unable to cope with living anymore your parent took their own life.;WIS;-1
+5;Abducted -- Your sibling was suddenly taken from the family.;DEX;-1
+6;Scandal -- Your parent suffered a humiliating scandal that caused the whole family to suffer for awhile.;CHA;-1
+7;Ran away -- Fed up with life in the family you sibling suddenly took off one day.;DEX;1
+8;Apprenticed -- You apprenticed with a tradesman.;CON;1
+9;Squire -- You Squired for a knight.;STR;1
+10;Educated -- You recieved formal schooling.;INT;1
+11;Blessed -- You were blessed by a holy man.;WIS;1
+12;Pretty -- You were gifter with good looks.;CHA;1
